@@ -31,6 +31,10 @@ class Handle_html(object):
 
 
     def rad_ua(self):  # 获取随机的浏览器UA标识
+        '''
+        返回随机的UA标识
+        :return: 
+        '''
         ua_list = [
             "Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.1 (KHTML, like Gecko) Chrome/22.0.1207.1 Safari/537.1",
             "Mozilla/5.0 (X11; CrOS i686 2268.111.0) AppleWebKit/536.11 (KHTML, like Gecko) Chrome/20.0.1132.57 Safari/536.11",
@@ -57,7 +61,7 @@ class Handle_html(object):
     def handle_phantomjs (self):
         '''
         打开一个phantomjs浏览器
-        :return: 
+        :return: driver
         '''
         conf = {}
         for line in fileinput.input("..//..//abuyun.conf"):
@@ -88,13 +92,14 @@ class Handle_html(object):
         dcap["phantomjs.page.settings.userAgent"] = ua
         driver = webdriver.PhantomJS(desired_capabilities=dcap, executable_path=phantomjs_path, service_args=service_args)
         return driver
-    ##利用PhantomJS来加载动态网页
-    def downloader_html(self,url, up_num):  ##利用PhantomJS获取网页数据
+
+    def downloader_html(self,url, up_num):
         '''
-        url        :要下载的页面url
-        up_num     :下拉的次数
+        ##利用PhantomJS获取网页数据
+        :param url: 要下载的页面url
+        :param up_num: 下拉的次数
+        :return: 
         '''
-        # print driver.service
         print '开始下拉页面加载!    URL为', url, '    下拉次数为:', up_num
         self.printf_logFile('浏览器打开完成，开始下拉页面加载！')
         driver = self.handle_phantomjs()
@@ -180,7 +185,7 @@ class Handle_html(object):
                 print shop_jiage
                 shop_jiage = shop_jiage[shop_jiage.rfind('¥') + 1:len(shop_jiage)]
                 try:
-                    shop_jiage = int(shop_jiage)
+                    shop_jiage = int(shop_jiage)#价格无法转化为int说明不是标准的店铺，抛弃不要
                 except:
                     print '跳过该店'
                     continue
@@ -313,19 +318,21 @@ class Handle_html(object):
                 print "这个爬不动", k
                 self.printf_logFile("这个爬不动" + shop_url)
                 print k.find('img')
-
-                # 店铺名称、地址、店铺url、电话、人均、店铺分类、商家店招图片url
-                # head =['店铺名称','地址','店铺url','电话','人均','店铺分类','商家店招图片url']
         self.printf_logFile("总共" + str(i) + "条！  " + str(j) + '条,爬不动！')
         print "总共", str(i), "条！  ", str(j), '条,爬不动！'
 
 
-    # 获取地区分类
+    #将数据写入CSV文件
     def svae_csv(self,csvdata, writer):
         writer.writerows(csvdata)
 
 
-    def fenlei(self,soup):  ##获取全国各个地区链接
+    def fenlei(self,soup):
+        '''
+        ##获取全国各个地区链接
+        :param soup: 
+        :return: 
+        '''
         list_fenlei = []
         div_list = soup.find_all("div", class_="J-nav-item")
         for v in div_list:
@@ -349,6 +356,12 @@ class Handle_html(object):
 
 
     def jiexi_zby(self,url, shop_flag):  ##获取周边游店铺详情
+        '''
+        解析周边游店铺信息
+        :param url: 
+        :param shop_flag: 
+        :return: 
+        '''
         soup = self.get_page(url)
         ##获取商品分类信息
         print '周边游类'
@@ -419,8 +432,13 @@ class Handle_html(object):
 
 
     def jiexi_hotel(self,url, shop_flag):  ##获取周边游店铺详情
+        '''
+        解析酒店信息
+        :param url: 
+        :param shop_flag: 
+        :return: 
+        '''
         soup = self.get_page(url)
-
         # 获取酒店分类
         sort = soup.find('div', attrs={'class': 'bread-nav'}).get_text().replace(' ', '').replace('»', '\\').replace('\n',
                                                                                                                      '')
@@ -450,7 +468,11 @@ class Handle_html(object):
             return 'error'
 
 
-    def abuyun(self):  ##返回代理
+    def abuyun(self):
+        '''
+        ##返回代理
+        :return: 
+        '''
         conf = {}
         for line in fileinput.input("..//..//abuyun.conf"):
             lines = line.replace(' ', '').replace('\n', '').replace('\r', '').split("=")
