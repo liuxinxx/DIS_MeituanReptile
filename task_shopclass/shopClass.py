@@ -50,17 +50,6 @@ class ShopClass(object):
             else:
                 print '网页无法打开！跳过该网页！'
 
-    def receive(self,username,pwd,ip,port):#处理城市队列，将每个城市获取到的分类信息打印出来
-        user_pwd = pika.PlainCredentials(username, pwd)
-        s_conn = pika.BlockingConnection(pika.ConnectionParameters(ip,port,'/', credentials=user_pwd))
-        channel = s_conn.channel()  
-        channel.queue_declare(queue='city_task_queue', durable=True) 
-        channel.basic_qos(prefetch_count=1) 
-        print '开始解析该地区商家分类'        
-        channel.basic_consume(self.callback,
-                              queue='city_task_queue',
-                              )
-        channel.start_consuming()
 if __name__ == '__main__':
     conf = {}
     for line in fileinput.input("..//..//RabbitMQ_Server.conf"):
