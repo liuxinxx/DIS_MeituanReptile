@@ -26,6 +26,3 @@ class Receive(object):
                               queue='city_task_queue',
                               )
         channel.start_consuming()
-if __name__ == '__main__':
-    re = Receive()
-    re.receive()
