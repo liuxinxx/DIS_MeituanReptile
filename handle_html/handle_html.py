@@ -354,7 +354,6 @@ class Handle_html(object):
             file_object.write(str)
             file_object.close()
 
-
     def jiexi_zby(self,url, shop_flag):  ##获取周边游店铺详情
         '''
         解析周边游店铺信息
@@ -381,7 +380,6 @@ class Handle_html(object):
             shop_name = soup.find('a', attrs={'class': 'poi-link'}).get('title')
             ##获取店铺地址
             shop_address = s.find('div', class_="biz-item field-group").get('title')
-
             # 获取联系方式
             shop_number = s.find_all('div', class_="biz-item")
             number = ''
@@ -442,7 +440,6 @@ class Handle_html(object):
         # 获取酒店分类
         sort = soup.find('div', attrs={'class': 'bread-nav'}).get_text().replace(' ', '').replace('»', '\\').replace('\n',
                                                                                                                      '')
-
         try:
             # 获取地区信息
             area = soup.find('a', attrs={'gaevent': 'crumb/area/1'}).get_text()
@@ -531,8 +528,7 @@ class Handle_html(object):
             sort2 = soup.find('a', attrs={'gaevent': 'crumb/category/1'}).get_text()
             sort3 = soup.find('a', attrs={'gaevent': 'crumb/category/2'}).get_text()
             sort = sort1 + '\\' + sort2 + '\\' + sort3
-            area = soup.find('a', attrs={'gaevent': 'crumb/area/1'}).get_text()  # 地区信息
-
+            area = soup.find('a', attrs={'gaevent': 'crumb/area/1'}).get_text()# 地区信息
             data = soup.find_all('div', class_="fs-section__left")
             i = 0
             for g in data:

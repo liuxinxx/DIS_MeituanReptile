@@ -15,7 +15,6 @@ class Receive(object):
         :param port:    端口
         :return:        
         '''
-
         user_pwd = pika.PlainCredentials(username, pwd)
         s_conn = pika.BlockingConnection(pika.ConnectionParameters(ip, port, '/', credentials=user_pwd))
         channel = s_conn.channel()

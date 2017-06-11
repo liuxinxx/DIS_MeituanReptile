@@ -3,11 +3,8 @@ import pika
 import time
 import json
 import fileinput
-import requests
-import HTMLParser
 from handle_html import handle_html
 from bs4 import BeautifulSoup
-from task_send import taskList_MQ
 from rabbitmq_queues import receive
 class ShopClass(object):
     def __init__(self):
